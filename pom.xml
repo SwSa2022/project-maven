@@ -53,7 +53,6 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-
             <!-- Run java-fx app over Maven -->
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -68,6 +67,7 @@
                 <artifactId>desktop-game-engine</artifactId>
                 <version>1.0</version>
             </plugin>
+            <!-- Configuration maven-dependency-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -85,6 +85,24 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Configuration maven-jar-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>lib/</Class-Path>
+                            <Rsrc-Main-Class>com.javarush.games.racer.RacerGame</Rsrc-Main-Class>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
             <!-- Configuration maven-surefire-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -96,30 +114,11 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <!-- Configuration maven-jar-plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
-                        <manifestEntries>
-                                <Class-Path>lib/</Class-Path>
-                                <Main-Class>org.eclipse.jdt.internal.jar-in-jar-loader.JarRsrcLoader</Main-Class>
-                                <Rsrc-Main-Class>com.javarush.games.racer.RacerGame</Rsrc-Main-Class>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
         </plugins>
         <!-- Configuration resources -->
         <resources>
             <resource>
-                <directory>${project.basedir}/lib</directory>
+                <directory>${project.build.directory}/lib</directory>
                 <targetPath>lib</targetPath>
             </resource>
         </resources>
